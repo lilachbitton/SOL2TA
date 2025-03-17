@@ -1,12 +1,16 @@
 // app/approved-quote/[id]/page.tsx
 import { getApprovedQuote } from '@/lib/firebase-helpers';
 import { Card } from '@/components/ui/card';
+import { Metadata } from 'next';
 
-export default async function ApprovedQuotePage({
-  params
-}: {
-  params: { id: string }
-}) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams?: Record<string, string | string[] | undefined>;
+}
+
+export default async function ApprovedQuotePage({ params }: PageProps) {
   const quoteData = await getApprovedQuote(params.id);
 
   if (!quoteData) {
@@ -75,7 +79,7 @@ export default async function ApprovedQuotePage({
             <div className="mt-6 pt-4 border-t flex justify-between items-center">
               <span className="text-gray-600">מחיר למארז:</span>
               <span className="text-xl font-bold">
-                ₪{quoteData.selectedOption.total?.toLocaleString('he-IL')} + מע"מ
+                ₪{quoteData.selectedOption.total?.toLocaleString('he-IL')} + מע&quot;מ
               </span>
             </div>
           </div>
@@ -92,7 +96,7 @@ export default async function ApprovedQuotePage({
             </div>
           )}
 
-            {/* חתימה */}
+          {/* חתימה */}
           <div className="mt-8">
             <h3 className="text-lg font-semibold mb-2">חתימת לקוח:</h3>
             <div className="border rounded-lg p-4">
